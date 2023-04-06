@@ -1,11 +1,10 @@
 import java.util.Arrays;
 import java.util.Random;
 
-public class Setup {
+public class Setup{
 
     private int boardWidth = 4;
     private int boardHeight = 10;
-    private boolean canRepeat = false;
     private int[] colors;
     private int allColors = 8;
     private int[] guessColors;
@@ -14,11 +13,10 @@ public class Setup {
         System.out.println("Default setting.");
     }
 
-    public Setup(int boardWidth, int boardHeight, boolean canRepeat, int allColors){
-        System.out.println("Custom setting :\nwidth - " + boardWidth + "\nheight - " + boardHeight + "\nall - " + allColors + "\nrepeat - " + canRepeat);
+    public Setup(int boardWidth, int boardHeight, int allColors){
+        System.out.println("Custom setting :\nwidth - " + boardWidth + "\nheight - " + boardHeight + "\nall - " + allColors);
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
-        this.canRepeat = canRepeat;
         this.allColors = allColors;
     }
 
@@ -55,4 +53,7 @@ public class Setup {
         printArray(guessColors);
     }
 
+    public int[] getGuessColors() {
+        return guessColors;
+    }
 }
