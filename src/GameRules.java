@@ -1,2 +1,6 @@
-public class GameRules {
+public class GameRules extends Setup{
+
+
+
+
 }
