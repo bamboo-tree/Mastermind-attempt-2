@@ -4,7 +4,10 @@ public class Main {
         Setup setup = new Setup();
         setup.generateColors();
 
-        new Frame();
+        Frame window = new Frame();
+        window.welcomeScreen();
+
+
 
     }
 }
