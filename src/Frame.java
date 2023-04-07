@@ -1,12 +1,15 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Frame {
 
     JFrame frame;
-    Font font = new Font(Font.DIALOG, Font.BOLD, 20);
-    Border border = BorderFactory.createLineBorder(Color.BLUE, 10, true);
+    final Color green = new Color(0x37FF8B);
+    final Color blue = new Color(0x00A6FB);
+    final Color white = new Color(0xFAF9F9);
+    final Color black = new Color(0x131200);
     final int width = 800;
     final int height = 600;
 
@@ -14,7 +17,7 @@ public class Frame {
         frame = new JFrame();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
-        frame.getContentPane().setBackground(new Color(0x02182B));
+        frame.getContentPane().setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setLayout(new BorderLayout(10, 10));
@@ -25,10 +28,20 @@ public class Frame {
         frame.setTitle("Mastermind");
     }
 
+    private boolean checkUserName(String input){
+        char[] arr = input.toCharArray();
+        for(char i : arr){
+            if((i < 65 || i > 90) && ( i < 97 || i > 122)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void welcomeScreen(){
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
-        container.setBackground(new Color(0xF7F7FF));
+        container.setBackground(white);
 
         // mastermind title
         JLabel title = new JLabel();
@@ -38,8 +51,8 @@ public class Frame {
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.CENTER);
         title.setOpaque(true);
-        title.setBackground(new Color(0x37FF8B));
-        title.setForeground(new Color(0x0F1108));
+        title.setBackground(green);
+        title.setForeground(black);
         container.add(title, BorderLayout.NORTH);
 
         // author info
@@ -50,45 +63,66 @@ public class Frame {
         info.setVerticalAlignment(SwingConstants.CENTER);
         info.setHorizontalAlignment(SwingConstants.CENTER);
         info.setOpaque(true);
-        info.setBackground(new Color(0x0F1108));
-        info.setForeground(new Color(0xF7F7FF));
+        info.setBackground(black);
+        info.setForeground(white);
         container.add(info, BorderLayout.SOUTH);
-
 
 
         // username input
         JPanel inputSection = new JPanel();
-        inputSection.setLayout(null);
+        inputSection.setLayout(new GridLayout(3,1));
 
+        // text label
         JLabel text = new JLabel();
-        text.setText("Enter username  ");
-        text.setFont(new Font("Century Gothic", Font.BOLD, 32));
+        text.setText("Enter username");
+        text.setFont(new Font("Century Gothic", Font.BOLD, 28));
         text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setBounds(0,0,width, 80);
+        text.setOpaque(true);
+        text.setBackground(white);
+        text.setForeground(black);
         inputSection.add(text);
 
-
+        // text field for username
         JTextField userName = new JTextField();
-        userName.setFont(new Font("Century Gothic", Font.BOLD, 26));
+        userName.setFont(new Font("Century Gothic", Font.BOLD, 24));
         userName.setHorizontalAlignment(SwingConstants.CENTER);
-        userName.setBounds((width/2) - 150, 100, 300, 36);
+        userName.setBackground(white);
+        userName.setForeground(black);
+        userName.setToolTipText("username should be created from letters A-Z, a-z with no spaces");
+        userName.setBorder(null);
 
-
+        // accept button
         JButton button = new JButton();
-        button.setBackground(new Color(0x37FF8B));
-        button.setText("accept");
+        button.setBackground(blue);
+        button.setForeground(black);
         button.setFont(new Font("Century Gothic", Font.BOLD, 18));
-        button.setBounds((width/2) - 100, 200, 200, 30);
+        button.setText("ACCEPT");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(checkUserName(userName.getText())){ //TODO : if user was previously created show different message
+                    System.out.println("User " + userName.getText() + " has been created.");
+                    text.setText("User " + userName.getText() + " has been created.");
+                    text.setForeground(Color.GREEN);
+                }
+                else{
+                    System.out.println("Username is incorrect, try something else.");
+                    text.setText("Username is incorrect, try something else.");
+                    text.setForeground(Color.RED);
+                }
 
+            }
+        });
 
-
+        // adding created components
         inputSection.add(userName);
         inputSection.add(button);
         container.add(inputSection, BorderLayout.CENTER);
-
-
         frame.add(container, BorderLayout.CENTER);
         frame.setVisible(true);
+
+        // setting default cursor position in text field
+        userName.requestFocusInWindow();
     }
 
 }
