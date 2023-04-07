@@ -42,6 +42,7 @@ public class Frame {
         title.setForeground(new Color(0x0F1108));
         container.add(title, BorderLayout.NORTH);
 
+        // author info
         JLabel info = new JLabel();
         info.setPreferredSize(new Dimension(width, 50));
         info.setText("Maciej Kamiński 2023 ©");
@@ -52,6 +53,38 @@ public class Frame {
         info.setBackground(new Color(0x0F1108));
         info.setForeground(new Color(0xF7F7FF));
         container.add(info, BorderLayout.SOUTH);
+
+
+
+        // username input
+        JPanel inputSection = new JPanel();
+        inputSection.setLayout(null);
+
+        JLabel text = new JLabel();
+        text.setText("Enter username  ");
+        text.setFont(new Font("Century Gothic", Font.BOLD, 32));
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setBounds(0,0,width, 80);
+        inputSection.add(text);
+
+
+        JTextField userName = new JTextField();
+        userName.setFont(new Font("Century Gothic", Font.BOLD, 26));
+        userName.setHorizontalAlignment(SwingConstants.CENTER);
+        userName.setBounds((width/2) - 150, 100, 300, 36);
+
+
+        JButton button = new JButton();
+        button.setBackground(new Color(0x37FF8B));
+        button.setText("accept");
+        button.setFont(new Font("Century Gothic", Font.BOLD, 18));
+        button.setBounds((width/2) - 100, 200, 200, 30);
+
+
+
+        inputSection.add(userName);
+        inputSection.add(button);
+        container.add(inputSection, BorderLayout.CENTER);
 
 
         frame.add(container, BorderLayout.CENTER);
