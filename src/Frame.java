@@ -2,8 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
-public class Frame {
+public class Frame{
 
     JFrame frame;
     final Color green = new Color(0x37FF8B);
@@ -38,7 +39,7 @@ public class Frame {
         return true;
     }
 
-    public void welcomeScreen(){
+    public boolean welcomeScreen(){
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
         container.setBackground(white);
@@ -83,13 +84,13 @@ public class Frame {
         inputSection.add(text);
 
         // text field for username
-        JTextField userName = new JTextField();
-        userName.setFont(new Font("Century Gothic", Font.BOLD, 24));
-        userName.setHorizontalAlignment(SwingConstants.CENTER);
-        userName.setBackground(white);
-        userName.setForeground(black);
-        userName.setToolTipText("username should be created from letters A-Z, a-z with no spaces");
-        userName.setBorder(null);
+        JTextField username = new JTextField();
+        username.setFont(new Font("Century Gothic", Font.BOLD, 24));
+        username.setHorizontalAlignment(SwingConstants.CENTER);
+        username.setBackground(white);
+        username.setForeground(black);
+        username.setToolTipText("username should be created from letters A-Z, a-z with no spaces");
+        username.setBorder(null);
 
         // accept button
         JButton button = new JButton();
@@ -100,29 +101,42 @@ public class Frame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(checkUserName(userName.getText())){ //TODO : if user was previously created show different message
-                    System.out.println("User " + userName.getText() + " has been created.");
-                    text.setText("User " + userName.getText() + " has been created.");
+                if(checkUserName(username.getText())){
                     text.setForeground(Color.GREEN);
+                    if(User.userExist(username.getText())){
+                        System.out.println("User was previously created, welcome back!");
+                        text.setText("User " + username.getText() + " already exists, welcome back!");
+                    }
+                    else{
+                        try {
+                            User user = new User(username.getText());
+                            user.createUser();
+                            System.out.println("User " + username.getText() + " has been created.");
+                            text.setText("User " + username.getText() + " has been created.");
+                            user.fillUser();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
                 }
                 else{
                     System.out.println("Username is incorrect, try something else.");
                     text.setText("Username is incorrect, try something else.");
                     text.setForeground(Color.RED);
                 }
-
             }
         });
 
         // adding created components
-        inputSection.add(userName);
+        inputSection.add(username);
         inputSection.add(button);
         container.add(inputSection, BorderLayout.CENTER);
         frame.add(container, BorderLayout.CENTER);
         frame.setVisible(true);
 
         // setting default cursor position in text field
-        userName.requestFocusInWindow();
+        username.requestFocusInWindow();
+        return false;
     }
 
 }

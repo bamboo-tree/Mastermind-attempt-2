@@ -1,8 +1,7 @@
-public class Main {
-    public static void main(String[] args) {
+import java.io.IOException;
 
-        Setup setup = new Setup();
-        setup.generateColors();
+public class Main {
+    public static void main(String[] args) throws IOException {
 
         Frame window = new Frame();
         window.welcomeScreen();
